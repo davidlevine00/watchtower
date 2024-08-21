@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import AcquisitionCostChart from './components/AcquisitionCostChart';
 import RevenueProfitChart from './components/RevenueProfitChart';
+import OrderList from './components/OrderList'; // Import OrderList
 
 function App() {
   return (
@@ -17,6 +18,10 @@ function App() {
         <section>
           <h2>Revenue and Profit Analysis</h2>
           <RevenueProfitChart />
+        </section>
+        <section>
+          <h2>Shopify Orders</h2>
+          <OrderList /> {/* Render OrderList here */}
         </section>
       </main>
     </div>
