@@ -1,23 +1,24 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import AcquisitionCostChart from './components/AcquisitionCostChart';
+import RevenueProfitChart from './components/RevenueProfitChart';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Customer Acquisition and Profit Analysis</h1>
       </header>
+      <main>
+        <section>
+          <h2>Customer Acquisition Cost by Source</h2>
+          <AcquisitionCostChart />
+        </section>
+        <section>
+          <h2>Revenue and Profit Analysis</h2>
+          <RevenueProfitChart />
+        </section>
+      </main>
     </div>
   );
 }
