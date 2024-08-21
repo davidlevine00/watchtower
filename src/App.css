@@ -4,7 +4,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 25vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,6 +12,11 @@
   font-size: calc(10px + 2vmin);
   color: white;
   padding: 20px;
+}
+
+.App-header h1 {
+  font-size: 2rem; /* Adjust this value to reduce the title size */
+  margin-bottom: 20px;
 }
 
 .App-logo {
