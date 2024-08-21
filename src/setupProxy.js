@@ -7,7 +7,7 @@ module.exports = function(app) {
       target: 'https://martin-clinic-2.myshopify.com',
       changeOrigin: true,
       pathRewrite: {
-        '^/api': '', // remove /api from the URL
+        '^/api': '', // This removes `/api` from the request path
       },
     })
   );

@@ -27,7 +27,9 @@ const OrderList = () => {
       try {
         console.log('Fetching orders...');
         const response = await axios.post(
-          '/api/admin/api/2024-07/graphql.json', // Use the proxy by hitting the `/api` endpoint
+          process.env.NODE_ENV === 'production'
+            ? `https://${process.env.REACT_APP_SHOPIFY_STORE_NAME}.myshopify.com/admin/api/2024-07/graphql.json`
+            : '/api/admin/api/2024-07/graphql.json', // Use proxy locally
           { query },
           {
             headers: {
