@@ -42,13 +42,13 @@ const OrderList = ({ queryType }) => {
 
       // Determine the base URL based on the environment
       const baseURL = process.env.NODE_ENV === 'production'
-        ? ''  // For production (Vercel), use the proxy path or full API path as needed
-        : '/api';  // For local development, use the proxy
+        ? `https://${process.env.REACT_APP_SHOPIFY_STORE_NAME}.myshopify.com/admin/api/2024-07/graphql.json`
+        : '/api'; // Use proxy for local development
 
       try {
         console.log('Fetching data...');
         const response = await axios.post(
-          `${baseURL}`,  // Base URL combined with the path
+          baseURL,
           { query: graphqlQuery },
           {
             headers: {
