@@ -7,7 +7,7 @@ module.exports = function(app) {
       target: `https://${process.env.REACT_APP_SHOPIFY_STORE_NAME}.myshopify.com`,
       changeOrigin: true,
       pathRewrite: {
-        '^/api': '',  // Adjusted to remove the '/api' from the path so the full URL becomes correct
+        '^/api': '/admin/api/2024-07/graphql.json',
       },
     })
   );

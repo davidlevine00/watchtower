@@ -41,12 +41,14 @@ const OrderList = ({ queryType }) => {
         `;
 
       try {
+        // Use '/api' as this is proxied to Shopify API
         const response = await axios.post(
-          '/api/shopify-orders',  // This calls your serverless function
+          '/api',  // This should match the proxy setup
           { query: graphqlQuery },
           {
             headers: {
               'Content-Type': 'application/json',
+              'X-Shopify-Access-Token': process.env.REACT_APP_SHOPIFY_API_KEY, // Ensure the access token is included
             },
           }
         );
