@@ -6,6 +6,7 @@ const OrderList = ({ queryType }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      // Define the GraphQL query based on the queryType prop
       const graphqlQuery = queryType === 'customers'
         ? `
           {
@@ -46,7 +47,12 @@ const OrderList = ({ queryType }) => {
         : '/api'; // Use proxy for local development
 
       try {
-        console.log('Fetching data...');
+        console.log('Request URL:', baseURL);
+        console.log('Sending request with headers:', {
+          'Content-Type': 'application/json',
+          'X-Shopify-Access-Token': process.env.REACT_APP_SHOPIFY_API_KEY,
+        });
+
         const response = await axios.post(
           baseURL,
           { query: graphqlQuery },
@@ -57,7 +63,8 @@ const OrderList = ({ queryType }) => {
             },
           }
         );
-        console.log('Full Response:', response.data);
+
+        console.log('Response:', response.data);
 
         if (response.data.data) {
           const data = queryType === 'customers' ? response.data.data.customers.edges : response.data.data.orders.edges;
@@ -69,6 +76,7 @@ const OrderList = ({ queryType }) => {
         console.error('Error fetching data:', error);
       }
     };
+
     fetchData();
   }, [queryType]);
 
@@ -87,7 +95,6 @@ const OrderList = ({ queryType }) => {
             ) : (
               <>
                 <strong>Order Name:</strong> {item.name}<br />
-                {/* Add checks before accessing presentmentMoney */}
                 <strong>Total Price:</strong> {item.totalPriceSet && item.totalPriceSet.presentmentMoney 
                   ? `${item.totalPriceSet.presentmentMoney.amount} ${item.totalPriceSet.presentmentMoney.currencyCode}` 
                   : 'N/A'}
