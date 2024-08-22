@@ -6,7 +6,6 @@ const OrderList = ({ queryType }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Define the GraphQL query based on the queryType prop
       const graphqlQuery = queryType === 'customers'
         ? `
           {
@@ -41,30 +40,16 @@ const OrderList = ({ queryType }) => {
           }
         `;
 
-      // Determine the base URL based on the environment
-      const baseURL = process.env.NODE_ENV === 'production'
-        ? `https://${process.env.REACT_APP_SHOPIFY_STORE_NAME}.myshopify.com/admin/api/2024-07/graphql.json`
-        : '/api'; // Use proxy for local development
-
       try {
-        console.log('Request URL:', baseURL);
-        console.log('Sending request with headers:', {
-          'Content-Type': 'application/json',
-          'X-Shopify-Access-Token': process.env.REACT_APP_SHOPIFY_API_KEY,
-        });
-
         const response = await axios.post(
-          baseURL,
+          '/api/shopify-orders',  // This calls your serverless function
           { query: graphqlQuery },
           {
             headers: {
               'Content-Type': 'application/json',
-              'X-Shopify-Access-Token': process.env.REACT_APP_SHOPIFY_API_KEY,
             },
           }
         );
-
-        console.log('Response:', response.data);
 
         if (response.data.data) {
           const data = queryType === 'customers' ? response.data.data.customers.edges : response.data.data.orders.edges;
