@@ -4,10 +4,10 @@ module.exports = function(app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'https://martin-clinic-2.myshopify.com',
+      target: `https://${process.env.REACT_APP_SHOPIFY_STORE_NAME}.myshopify.com`,
       changeOrigin: true,
       pathRewrite: {
-        '^/api': '', // This removes `/api` from the request path
+        '^/api': '',  // Removes '/api' from the path, ensuring it hits '/admin/api/2024-07/graphql.json'
       },
     })
   );

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
 const QueryForm = ({ onQuerySubmit }) => {
-  const [queryType, setQueryType] = useState('customers');
-  const [fields, setFields] = useState('id name email');
+  const [queryType, setQueryType] = useState('orders');
+  const [fields, setFields] = useState(queryType === 'customers' ? 'id firstName lastName email' : 'id name totalPriceSet { presentmentMoney { amount currencyCode } }');
 
   const handleQueryTypeChange = (e) => {
-    setQueryType(e.target.value);
+    const newQueryType = e.target.value;
+    setQueryType(newQueryType);
+    setFields(newQueryType === 'customers' ? 'id firstName lastName email' : 'id name totalPriceSet { presentmentMoney { amount currencyCode } }');
   };
 
   const handleFieldsChange = (e) => {
@@ -14,19 +16,18 @@ const QueryForm = ({ onQuerySubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Generate the query based on user input
     const query = `
       {
-        ${queryType}(first: 10) {
+        ${queryType}(first: 5) {
           edges {
             node {
-              ${fields.split(' ').join(' ')}
+              ${fields}
             }
           }
         }
       }
     `;
-    onQuerySubmit(query);
+    onQuerySubmit(queryType, query);
   };
 
   return (

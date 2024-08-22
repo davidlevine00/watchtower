@@ -1,34 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const OrderList = () => {
-  const [orders, setOrders] = useState([]);
+const OrderList = ({ queryType }) => {
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      const query = `
-        {
-          orders(first: 5) {
-            edges {
-              node {
-                id
-                name
-                totalPriceSet {
-                  presentmentMoney {
-                    amount
-                    currencyCode
+    const fetchData = async () => {
+      // Adjust the query based on the queryType prop
+      const graphqlQuery = queryType === 'customers'
+        ? `
+          {
+            customers(first: 5) {
+              edges {
+                node {
+                  id
+                  firstName
+                  lastName
+                  email
+                }
+              }
+            }
+          }
+        `
+        : `
+          {
+            orders(first: 5) {
+              edges {
+                node {
+                  id
+                  name
+                  totalPriceSet {
+                    presentmentMoney {
+                      amount
+                      currencyCode
+                    }
                   }
                 }
               }
             }
           }
-        }
-      `;
+        `;
+
       try {
-        console.log('Fetching orders...');
+        console.log('Fetching data...');
         const response = await axios.post(
-          process.env.NODE_ENV === 'production' ? '/api/shopify-orders' : '/api/admin/api/2024-07/graphql.json',
-          { query },
+          '/api/admin/api/2024-07/graphql.json',  // This path should work with your proxy
+          { query: graphqlQuery },
           {
             headers: {
               'Content-Type': 'application/json',
@@ -36,24 +53,42 @@ const OrderList = () => {
             },
           }
         );
-        console.log('Fetched Orders:', response.data);
-        setOrders(response.data.data.orders.edges.map(edge => edge.node));
+        console.log('Full Response:', response.data);
+
+        if (response.data.data) {
+          const data = queryType === 'customers' ? response.data.data.customers.edges : response.data.data.orders.edges;
+          setItems(data.map(edge => edge.node));
+        } else {
+          console.warn('No data found.');
+        }
       } catch (error) {
-        console.error('Error fetching orders:', error);
+        console.error('Error fetching data:', error);
       }
     };
-    fetchOrders();
-  }, []);
+    fetchData();
+  }, [queryType]);
 
   return (
     <div>
-      <h2>Order List</h2>
+      <h2>{queryType === 'customers' ? 'Customer List' : 'Order List'}</h2>
       <ul>
-        {orders.map((order, index) => (
+        {items.map((item, index) => (
           <li key={index}>
-            <strong>Order ID:</strong> {order.id}<br />
-            <strong>Order Name:</strong> {order.name}<br />
-            <strong>Total Price:</strong> {order.totalPriceSet.presentmentMoney.amount} {order.totalPriceSet.presentmentMoney.currencyCode}
+            <strong>{queryType === 'customers' ? 'Customer ID' : 'Order ID'}:</strong> {item.id}<br />
+            {queryType === 'customers' ? (
+              <>
+                <strong>Name:</strong> {item.firstName} {item.lastName}<br />
+                <strong>Email:</strong> {item.email}
+              </>
+            ) : (
+              <>
+                <strong>Order Name:</strong> {item.name}<br />
+                {/* Add checks before accessing presentmentMoney */}
+                <strong>Total Price:</strong> {item.totalPriceSet && item.totalPriceSet.presentmentMoney 
+                  ? `${item.totalPriceSet.presentmentMoney.amount} ${item.totalPriceSet.presentmentMoney.currencyCode}` 
+                  : 'N/A'}
+              </>
+            )}
           </li>
         ))}
       </ul>
