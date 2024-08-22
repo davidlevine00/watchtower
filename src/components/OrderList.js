@@ -6,7 +6,6 @@ const OrderList = ({ queryType }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Adjust the query based on the queryType prop
       const graphqlQuery = queryType === 'customers'
         ? `
           {
@@ -41,10 +40,15 @@ const OrderList = ({ queryType }) => {
           }
         `;
 
+      // Determine the base URL based on the environment
+      const baseURL = process.env.NODE_ENV === 'production'
+        ? ''  // For production (Vercel), use the proxy path or full API path as needed
+        : '/api';  // For local development, use the proxy
+
       try {
         console.log('Fetching data...');
         const response = await axios.post(
-          '/api/admin/api/2024-07/graphql.json',  // This path should work with your proxy
+          `${baseURL}`,  // Base URL combined with the path
           { query: graphqlQuery },
           {
             headers: {
