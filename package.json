@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.3.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "react-refresh": "^0.14.2",
     "source-map-loader": "^5.0.0"
   }
