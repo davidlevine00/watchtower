@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-watchtower-dev-49146-authRole",
+      "UnauthRoleArn": "arn:aws:iam::654654475131:role/amplify-watchtower-dev-49146-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::654654475131:role/amplify-watchtower-dev-49146-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-watchtower-dev-49146-deployment",
+      "UnauthRoleName": "amplify-watchtower-dev-49146-unauthRole",
+      "StackName": "amplify-watchtower-dev-49146",
+      "StackId": "arn:aws:cloudformation:us-east-2:654654475131:stack/amplify-watchtower-dev-49146/92822970-62f8-11ef-b427-0ad3fe109df5",
+      "AmplifyAppId": "d3ozyzl2unpjjy"
+    }
+  }
+}
