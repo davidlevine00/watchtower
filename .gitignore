@@ -43,3 +43,6 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 
+backup/
+watchtower/customers/martin_clinic/shopify-app/src/testFetchOrders.js
+yarn.lock
