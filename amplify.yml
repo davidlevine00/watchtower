@@ -1,0 +1,19 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - nvm install 16  # Specify Node.js version 16
+        - nvm use 16
+        - cd customers/martin_clinic/shopify-app
+        - yarn install
+    build:
+      commands:
+        - yarn build
+  artifacts:
+    baseDirectory: customers/martin_clinic/shopify-app/build
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - customers/martin_clinic/shopify-app/node_modules/**/*
